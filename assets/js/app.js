@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const helloSentence =  document.querySelector('.hello-sentence');
     const userConnectEl = document.querySelectorAll('.is-connect');
     const userNoConnectEl = document.querySelectorAll('.no-connect');
+    const apiKey = "8d997d228ba44568be2504c61a3151f4";
 
     // Formulaire d'inscription
     const formRegister = document.querySelector('.form-register');
@@ -83,6 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     };
 
+    const logout = () => {
+        fetchFunction('https://newsapp.dwsapp.io/api/logout', 'GET')
+            .then(result => {
+
+                // Afficher la connexion inscription
+                userNoConnectEl.forEach(el => el.classList.remove('hidden'));
+
+                // Cacher les sections du compte
+                userConnectEl.forEach(el => el.classList.add('hidden'));
+
+                // Suppresion du token dans le local storage
+                localStorage.setItem('user-token', null);
+            })
+    };
 
     const createSlider = (container, options) => {
 
@@ -290,8 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let source = this.form.querySelector('input:checked') ? this.form.querySelector('input:checked').value : null;
 
             if(source) {
-                fetchFunction(`https://newsapp.dwsapp.io/api/news/${source}/${keywords}`)
-                    .then( result => {
+                fetchFunction(`https://newsapp.dwsapp.io/api/news/${source}/${keywords}`, 'POST', {"news_api_token": apiKey}).then( result => {
 
                         // Vider la liste des articles déjà affichés
                         this.articlesContainer.innerHTML = '';
@@ -390,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initMainArticles = sourceID => {
         let container = document.querySelector('.main-article-carousel');
         if(container) {
-            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`)
+            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`, 'POST',{"news_api_token": apiKey})
                 .then( result => {
 
                     // Si la réponse contient des articles
@@ -453,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.suggestions.className = 'articles-list';
             this.suggestions.innerHTML = '';
 
-            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`)
+            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`, 'POST',{"news_api_token": apiKey})
                 .then(result => {
                     let articles = result.data.articles;
                     let max = articles.length > 10 ? 10 : articles.length; // max d'articles à afficher
@@ -502,17 +516,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     const fetchFunction = (url, requestType, data) => {
         return new Promise( resolve => {
             let options = {
                 headers: {
-                    "Content-Type": "application/json",
-                    "news_api_token": "8d997d228ba44568be2504c61a3151f4"
+                    "Content-Type": "application/json"
                 }
             };
             if(requestType) options.method = requestType;
-            if(data) options.body = JSON.stringify(data);
+            options.body = JSON.stringify(data);
             fetch( url, options)
                 .then( response => response.ok ? response.json() : 'Response not OK' )
                 .then( jsonData => {
@@ -560,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new LoginRegisterPopin();
 
     // Obtenir la liste des sources
-    fetchFunction('https://newsapp.dwsapp.io/api/news/sources')
+    fetchFunction('https://newsapp.dwsapp.io/api/news/sources', 'POST',{"news_api_token": apiKey})
         .then(result => {
 
             // Afficher aléatoirement 10 article de la source dans .main-article-carousel
@@ -575,31 +587,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // Détecte la soumission du formulaire d'inscription
-    if(formRegister) {
-        formRegister.addEventListener('submit', e => {
-            e.preventDefault();
+    formRegister.addEventListener('submit', e => {
+        e.preventDefault();
 
-            // Si le mot de passe et sa confirmation sont identiques
-            if(inputRegisterPassword.value === inputRegisterPasswordConfirm.value) {
+        // Si le mot de passe et sa confirmation sont identiques
+        if(inputRegisterPassword.value === inputRegisterPasswordConfirm.value) {
 
-                // Inscription
-                register();
+            // Inscription
+            register();
 
-            } else {
-                showInvalidInput(inputRegisterPasswordConfirm, 'Mot de passe différent')
-            }
-        })
-    }
+        } else {
+            showInvalidInput(inputRegisterPasswordConfirm, 'Mot de passe différent')
+        }
+    });
 
     // Détecte la soumission du formulaire de connexion
-    if(formLogin) {
-        formLogin.addEventListener('submit', e => {
-            e.preventDefault();
+    formLogin.addEventListener('submit', e => {
+        e.preventDefault();
 
-            // Connexion
-            login();
-        })
-    }
+        // Connexion
+        login();
+    });
+
+    // Déconnexion d l'utilisateur
+    document.querySelector('.logout').addEventListener('click', e => {
+        e.preventDefault();
+        logout();
+    });
+
 });
 
 

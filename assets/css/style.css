@@ -44,6 +44,9 @@ body {
 }
 .wrapper {
     padding: 0 20px;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
 }
 main section {
     margin-top: 80px;
@@ -262,6 +265,8 @@ input:not(:placeholder-shown) + label {
     display: flex;
     flex-direction: row-reverse;
     height: 100vh;
+    padding-bottom: 100px;
+    border-bottom: solid 1px #000;
 }
 .container-1 > header,
 .container-1 > div {
@@ -448,8 +453,18 @@ article:hover h2 {
     padding: 5px 10px;
     border: solid 1px;
 }
-
-
+.logout i {
+    font-size: 11px;
+    margin-left: 10px;
+}
+.logout {
+    margin-right: 0 !important;
+    font-weight: 600;
+    font-size: 12px;
+}
+.hello-sentence {
+    font-size: 18px;
+}
 
 /***********************************************************************************************************************
     Popin
