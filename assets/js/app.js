@@ -1,13 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Déclaration des variables
+
+
+    /*******************************************************************************************************************
+     * Déclaration des variables
+    *******************************************************************************************************************/
+
     const popin = document.querySelector('.popin');
     const helloSentence =  document.querySelector('.hello-sentence');
     const apiKey = "8d997d228ba44568be2504c61a3151f4";
 
     // On récupère les id des favoris enregistrés dans le Local Storage sous form de String
-    let favoritesSaved = localStorage.getItem('favorites');
     // On obtient un tableau des id des favoris à partir de la String
+    let favoritesSaved = localStorage.getItem('favorites');
     favoritesSaved = favoritesSaved ? favoritesSaved.split('+') : '';
 
     // Formulaire d'inscription
@@ -25,8 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginLink = document.querySelector('.login');
 
 
-    /*
-        Connexion
+
+
+
+
+
+    /*******************************************************************************************************************
+     * Déclaration des fonctions
+     *******************************************************************************************************************/
+
+    /**
+     * Connexion
      */
     const login = () => {
         let data = {
@@ -53,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     };
 
-    /*
-        Inscription
+    /**
+     * Inscription
      */
     const register = () => {
         // Récuperer les valuers des champs du formulaire
@@ -86,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     };
 
+    /**
+     * Déconnexion
+     */
     const logout = () => {
         fetchFunction('https://newsapp.dwsapp.io/api/logout', 'GET')
             .then(result => {
@@ -104,6 +121,58 @@ document.addEventListener('DOMContentLoaded', () => {
             })
     };
 
+    /**
+     * Afficher 10 articles aléatoirement dans .main-article-carousel
+     */
+    const initMainArticles = sourceID => {
+        let container = document.querySelector('.main-article-carousel');
+        if(container) {
+            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`, 'POST',{"news_api_token": apiKey})
+                .then( result => {
+
+                    // Si la réponse contient des articles
+                    if(result.data) {
+                        let articles = result.data.articles;
+                        let max = articles.length > 10 ? 10 : articles.length; // max d'articles à afficher
+
+                        // On obtient l'ordre aléatoire des articles
+                        // ex:  articleOrder = [2, 13, 7, 1, 9, 17, 24, 8, 5, 11]
+                        let articleOrder = [];
+                        while(articleOrder.length < max){
+
+                            // i = index de l'article
+                            // i = nombre aléatoire entre 0 et articles.length
+                            let i = Math.floor(Math.random() * articles.length) + 1;
+
+                            // si ce nombre n'est pas déjà dans articleOrder[] et si il existe un article avec pour index ce nombre, alors on l'ajoute à articleOrder[]
+                            if(articleOrder.indexOf(i) === -1 && articles[i]) articleOrder.push(i);
+                        }
+
+                        // Implémentation de la class Article pour chaque article contenu dans articleOrder[]
+                        articleOrder.forEach(index => {
+                            let article = new Article(articles[index]);
+                            article.insertInto(container);
+                        });
+
+                        // Initialisation du slider .main-article-carousel
+                        createSlider(container, {
+                            contain: true,
+                            prevNextButtons: false,
+                            wrapAround: true,
+                            autoPlay: true,
+                            pageDots: false
+                        });
+                    }
+                });
+        }
+    };
+
+
+    /**
+     * Création d'un slider avec Flickity
+     * @param container
+     * @param options
+     */
     const createSlider = (container, options) => {
 
         // Initialisation du slider
@@ -119,8 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    /*
-        Affichage des données de l'utilisateur
+    /**
+     * Afficher les données de l'utilisateur et infos une fois connecté
+     * @param user
      */
     const initUserInfos = (user) => {
 
@@ -132,7 +202,62 @@ document.addEventListener('DOMContentLoaded', () => {
         helloSentence.innerHTML = `Bonjour ${user.firstname} ${user.lastname}`;
     };
 
+    /**
+     * Afficher un message d'erreur sur le champs erronné jusqu'à ce que sa valeur change
+     * @param input
+     * @param message : String
+     */
+    const showInvalidInput = (input, message) => {
+        let label = document.querySelector(`label[for="${input.id}"]`);
 
+        // On stock l'ancien texte du label
+        let oldLabelText = label.innerHTML;
+
+        // Affiche le message d'erreur
+        label.innerHTML = message;
+        input.classList.add('invalid');
+
+        // Détecte le changement de valeur de l'input
+        input.addEventListener('keydown', () => {
+            if(input.classList.contains('invalid')) {
+                label.innerHTML = oldLabelText;
+                input.classList.remove('invalid');
+            }
+        });
+    };
+
+    /**
+     * Fonction fetch général
+     * @param url = String
+     * @param requestType = String
+     * @param data = {}
+     * @returns {Promise}
+     */
+    const fetchFunction = (url, requestType, data) => {
+        return new Promise( resolve => {
+            let options = {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            };
+            if(requestType) options.method = requestType;
+            options.body = JSON.stringify(data);
+            fetch( url, options)
+                .then( response => response.ok ? response.json() : 'Response not OK' )
+                .then( jsonData => {
+                    resolve(jsonData)
+                })
+                .catch( err => console.error(err) )
+        })
+    };
+
+
+
+
+
+    /*******************************************************************************************************************
+     * Déclaration des Class
+     *******************************************************************************************************************/
 
     class Article {
 
@@ -204,36 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-
-
     /**
-     * Afficher un message d'erreur sur le champs erronné jusqu'à ce que sa valeur change
-     * @param input
-     * @param message : String
-     */
-    const showInvalidInput = (input, message) => {
-        let label = document.querySelector(`label[for="${input.id}"]`);
-
-        // On stock l'ancien texte du label
-        let oldLabelText = label.innerHTML;
-
-        // Affiche le message d'erreur
-        label.innerHTML = message;
-        input.classList.add('invalid');
-
-        // Détecte le changement de valeur de l'input
-        input.addEventListener('keydown', () => {
-            if(input.classList.contains('invalid')) {
-                label.innerHTML = oldLabelText;
-                input.classList.remove('invalid');
-            }
-        });
-    };
-
-
-    /*
-        Media / source à l'origines des articles
+     * Création des input radio correspondant aux médias (sources)
      */
     class Media {
 
@@ -253,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Affichage des inputs dans le formulaire
         insert() {
 
             let span = document.createElement('span');
@@ -332,8 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-
+    /**
+     * Connexion et inscription depuis la Popin
+     */
     class LoginRegisterPopin {
 
         constructor() {
@@ -378,6 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    /**
+     * Formulaire de recherche selon source/média et mot clé
+     */
     class SearchForm {
 
         constructor(sources) {
@@ -517,52 +619,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Afficher 10 articles aléatoirement dans .main-article-carousel
+     * Afficher une popin avec les détails de l'article ainsi que 10 articles de la sources
      */
-    const initMainArticles = sourceID => {
-        let container = document.querySelector('.main-article-carousel');
-        if(container) {
-            fetchFunction(`https://newsapp.dwsapp.io/api/news/${sourceID}/null`, 'POST',{"news_api_token": apiKey})
-                .then( result => {
-
-                    // Si la réponse contient des articles
-                    if(result.data) {
-                        let articles = result.data.articles;
-                        let max = articles.length > 10 ? 10 : articles.length; // max d'articles à afficher
-
-                        // On obtient l'ordre aléatoire des articles
-                        // ex:  articleOrder = [2, 13, 7, 1, 9, 17, 24, 8, 5, 11]
-                        let articleOrder = [];
-                        while(articleOrder.length < max){
-
-                            // i = index de l'article
-                            // i = nombre aléatoire entre 0 et articles.length
-                            let i = Math.floor(Math.random() * articles.length) + 1;
-
-                            // si ce nombre n'est pas déjà dans articleOrder[] et si il existe un article avec pour index ce nombre, alors on l'ajoute à articleOrder[]
-                            if(articleOrder.indexOf(i) === -1 && articles[i]) articleOrder.push(i);
-                        }
-
-                        // Implémentation de la class Article pour chaque article contenu dans articleOrder[]
-                        articleOrder.forEach(index => {
-                            let article = new Article(articles[index]);
-                            article.insertInto(container);
-                        });
-
-                        // Initialisation du slider .main-article-carousel
-                        createSlider(container, {
-                            contain: true,
-                            prevNextButtons: false,
-                            wrapAround: true,
-                            autoPlay: true,
-                            pageDots: false
-                        });
-                    }
-                });
-        }
-    };
-
-
     class ArticleViewer {
 
         constructor() {
@@ -624,34 +682,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    const fetchFunction = (url, requestType, data) => {
-        return new Promise( resolve => {
-            let options = {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            };
-            if(requestType) options.method = requestType;
-            options.body = JSON.stringify(data);
-            fetch( url, options)
-                .then( response => response.ok ? response.json() : 'Response not OK' )
-                .then( jsonData => {
-                    resolve(jsonData)
-                })
-                .catch( err => console.error(err) )
-        })
-    };
 
 
 
 
 
 
-
-
-
-
-
+    /*******************************************************************************************************************
+     * Début du programme
+     *******************************************************************************************************************/
 
     // vérifier si l'utilisateur est déjà connecté
     let token = localStorage.getItem('user-token');
