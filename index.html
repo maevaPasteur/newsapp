@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Newsapp - Breaking News all around the wrold in real time</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/css/libs/flickity.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="df container-1">
+    <header>
+        <div class="a1 open-popin no-connect">
+            <a href="#" class="login">Connexion</a>
+            <a href="#" class="register">Inscription</a>
+        </div>
+        <div class="a1 open-popin is-connect hidden">
+            <p class="hello-sentence">Bonjour</p>
+        </div>
+        <h1 class="a1">MYNEWS</h1>
+    </header>
+    <section class="main-article-carousel">
+    </section>
+</div>
+<main>
+    <section class="wrapper a1">
+        <h2>Toute l'actualité en temps réel</h2>
+        <p>Sur MYNEWS, c'est toi qui contrôle l'actualité depuis sa source.</p>
+    </section>
+    <section class="wrapper a1">
+        <form class="form-search" novalidate>
+            <h3>Choisis ton média</h3>
+            <div class="parent container-sources"></div>
+            <h3>Affine ta recherche</h3>
+            <span class="container-search">
+                <input type="text" name="searchData" id="searchData" minlength="1" placeholder=" ">
+                <label for="searchData">Chercher un article, un sujet...</label>
+                <button class="search" type="submit"><i class="fas fa-search"></i></button>
+            </span>
+        </form>
+    </section>
+    <section class="wrapper">
+        <div class="articles-list"></div>
+    </section>
+    <section class="popin hide">
+        <div class="popin-content">
+            <div class="links">
+                <h2 class="active">Connexion</h2>
+                <h2>Inscription</h2>
+            </div>
+            <form action="#" class="form-login active">
+                <span>
+                    <input type="text" required id="loginEmail" placeholder=" ">
+                    <label for="loginEmail">Email</label>
+                </span>
+                <span>
+                    <input type="password" required id="loginPw" placeholder=" ">
+                    <label for="loginPw">Mot de passe</label>
+                </span>
+                <button type="submit"><i>Valider</i><i class="fas fa-check"></i></button>
+            </form>
+            <form action="#" class="form-register">
+                <span>
+                    <input type="text" required id="registerFirstname" placeholder=" ">
+                    <label for="registerFirstname">Prénom</label>
+                </span>
+                <span>
+                    <input type="text" required id="registerlastname" placeholder=" ">
+                    <label for="registerlastname">Nom</label>
+                </span>
+                <span>
+                    <input type="text" required id="registerEmail" placeholder=" ">
+                    <label for="registerEmail">Email</label>
+                </span>
+                <span>
+                    <input type="password" required id="registerPw" placeholder=" " minlength="5">
+                    <label for="registerPw">Mot de passe</label>
+                </span>
+                <span>
+                    <input type="password" required id="registerPwConfirm" placeholder=" " minlength="5">
+                    <label for="registerPwConfirm">Confirmer le mot de passe</label>
+                </span>
+                <button type="submit"><i>Valider</i><i class="fas fa-check"></i></button>
+            </form>
+        </div>
+    </section>
+    <section class="wrapper is-connect">
+        <h2>Vos articles favoris</h2>
+        <div class="articles-list container-favorites"></div>
+    </section>
+    <section class="article-viewer hidden">
+        <a class="back-btn" href="#"><i class="fas fa-arrow-left"></i> Retour</a>
+        <div class="article-content"></div>
+        <h2>Suggestion d'articles</h2>
+        <div class="articles-list"></div>
+    </section>
+</main>
+
+<script src='assets/js/libs/fontello.js' rel="script"></script>
+<script src='assets/js/app.js' rel="script"></script>
+<script src='assets/js/libs/flickity.js' rel="script"></script>
+</body>
+</html>
