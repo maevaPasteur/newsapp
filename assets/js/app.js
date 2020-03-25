@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // Déclaration des variables
@@ -134,6 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor(article) {
             this.article = article;
             this.months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Nomvembre', 'Décembre'];
+            this.title = this.article.title;
+            this.sourceId = this.article.source.id;
+            this.sourceName = this.article.source.name;
+            this.url = this.article.url;
 
             // Mettre la date au format
             this.date = new Date(this.article.publishedAt);
@@ -145,24 +148,39 @@ document.addEventListener('DOMContentLoaded', () => {
             // Vérifier si les contenus ne sont pas null pour éviter des balises vides
             this.description = this.article.description ? `<p>${this.article.description}</p>` : '';
             this.content = this.article.content ? `<p>${this.article.content}</p>` : '';
-
-            // Liste de l'article dans le DOM
-            this.articleList = [];
         }
 
         // Retourne la balise article
-        getArticleContent() {
+        getArticleContent(size = 0) {
             let articleEl = document.createElement('article');
             articleEl.classList.add('item');
+            let content = '';
+
+            // Miniature article
+            if(size === 0) {
+                content = ` <p>${this.date}</p>
+                        <h2 class="article-title">${this.title}</h2>
+                        ${this.description}`;
+
+            // Popin article intégral
+            } else {
+                content = `<p>Publié le ${this.date}</p>
+                        <p>Par ${this.sourceName}</p>
+                        <h2 class="article-title">${this.title}</h2>
+                        ${content}
+                        <a href="${this.url}">Lire l'article en intégralité<i class="fas fa-arrow-right"></i></a>`;
+            }
+
+            // Contenu de la balsie article
             articleEl.innerHTML =
                 ` <figure>
-                    <img alt="${this.article.title}" src="${this.image}">
+                    <img alt="${this.title}" src="${this.image}">
                     <figcaption>
-                        <p>${this.date}</p>
-                        <h2>${this.article.title}</h2>
-                        ${this.description}
+                        ${content}
                     </figcaption>
                 </figure>`;
+
+            // Retourne la balise article avec son contenu
             return articleEl;
         }
 
@@ -171,15 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let newArticle = this.getArticleContent();
             container.appendChild(newArticle);
 
-            // On ajoute l'article du DOM dans la liste des articles
-            // ça permettra de savoir combien de fois cet article est visible sur la page et faire ds actions sur tous à la fois
-            this.articleList.push(newArticle);
-
             newArticle.addEventListener('click', e => {
                 e.preventDefault();
 
                 // Affichage de l'article dans la popin .article-viewer
-                articleViewerItem.updateContent(this.article.title, this.image, this.date, this.article.source.name, this.content, this.article.url, this.article.source.id)
+                articleViewerItem.updateContent(this.getArticleContent(1), this.sourceId)
             })
         }
     }
@@ -210,6 +224,88 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
+
+
+    /*
+        Media / source à l'origines des articles
+     */
+    class Media {
+
+        constructor(source) {
+            this.containerSources = document.querySelector('.container-sources.normal');
+            this.containerSourcesFavorites = document.querySelector('.container-sources.favorites');
+            this.parentFavorites = document.querySelector('.parent-fav');
+            this.id = source.id;
+            this.name = source.name;
+            this.source = source;
+            this.insert();
+        }
+
+        insert() {
+            let span = document.createElement('span');
+            span.innerHTML +=
+                `<input id="${this.id}" value="${this.id}" required type="radio" name="source">
+                 <label for="${this.id}">${this.name}</label>
+                 <i data-favorite="false" class="fas fa-heart"></i>`;
+
+            // Afficher dans le DOM
+            this.containerSources.append(span);
+
+            // Détecter le click sur le bouton d'ajout / suppression aux favoris
+            let btn = span.querySelector('i');
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+
+                // Valeur de data-favorite : false ou id du favoris
+                let favoriteId = btn.dataset.favorite;
+                let token = localStorage.getItem('user-token');
+
+                // Si [data-favorite = "false"] le media n'est pas dans nos favoris, alors on l'ajoute
+                if(btn.dataset.favorite === 'false') {
+                    let data = {
+                        id: this.id,
+                        name: this.name,
+                        description: this.source.description,
+                        url: this.source.url,
+                        category: this.source.category,
+                        language: this.source.language,
+                        country: this.source.country,
+                        token: token
+                    };
+                    fetchFunction('https://newsapp.dwsapp.io/api/bookmark/', 'POST', data)
+                        .then(result => {
+                            let id = result.data.data['_id'];
+                            if(id) {
+
+                                // On attribut l'id du favoris
+                                btn.setAttribute('data-favorite', id);
+                                span.remove();
+                                this.containerSourcesFavorites.append(span);
+
+                                // On rend visible les medias favoris
+                                this.parentFavorites.classList.remove('hide');
+                            }
+                        })
+
+                // On retire des favoris
+                } else {
+                    fetchFunction(`https://newsapp.dwsapp.io/api/bookmark/${favoriteId}`, 'DELETE', {token: token})
+                        .then(result => {
+
+                            // On met data-favorite à false
+                            btn.setAttribute('data-favorite', 'false');
+                            span.remove();
+                            this.containerSources.prepend(span);
+
+                            // Si les favoris sont vides alors on cache cette partie
+                            if(!this.containerSourcesFavorites.querySelectorAll("span").length) {
+                                this.parentFavorites.classList.add('hide');
+                            }
+                        })
+                }
+            })
+        }
+    }
 
 
 
@@ -262,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor(sources) {
             this.sources = sources;
             this.form = document.querySelector('.form-search');
-            this.containerSources = this.form.querySelector('.container-sources');
+            this.containerSources = this.form.querySelector('.container-sources.normal');
             this.inputSearch = this.form.querySelector('#searchData');
             this.articlesContainer = document.querySelector('.articles-list');
             this.message = undefined;
@@ -318,11 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 this.message.remove();
                             }
 
-                            // Récupérer chaque article
-                            result.data.articles.forEach(article => {
-                                let newArticle = new Article(article);
+                            // Récupérer 10 articles maximum
+                            let max = result.data.articles.length > 10 ? 10 : result.data.articles.length;
+                            for(let i=0; i<max; i++) {
+                                let newArticle = new Article(result.data.articles[i]);
                                 newArticle.insertInto(this.articlesContainer);
-                            })
+                            }
                         } else {
 
                             // Afficher un message d'erreur si aucun article trouvé
@@ -334,36 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
 
-        }
-
-        displaySources(start, end) {
-            this.sources.forEach(source => {
-                this.containerSources.innerHTML +=
-                    `<span>
-                    <input id="${source.id}" value="${source.id}" required type="radio" name="source">
-                    <label for="${source.id}">${source.name}</label>
-                </span>`;
-            });
-
-            // Si il y a + de 20 sources on ajoute un bouton "Voir tout"
-            if(this.sources.length > 25) {
-
-                // Création du bouton "voir tout"
-                this.btnShowMore = document.createElement('p');
-                this.btnShowMore.innerText = 'Voir tout';
-                this.btnShowMore.className = 'see-all-btn';
-                this.containerSources.append(this.btnShowMore);
-
-                //
-                this.btnShowMore.addEventListener('click', e => {
-                    e.preventDefault();
-                    if(this.containerSources.classList.contains('see-all')) {
-                        this.showLess();
-                    } else {
-                        this.showMore();
-                    }
-                })
-            }
         }
 
         // On limite l'affichage des sources à 25
@@ -395,6 +462,32 @@ document.addEventListener('DOMContentLoaded', () => {
             this.form.querySelector('input').addEventListener('keydown', () => {
                 this.message.remove();
             })
+        }
+
+        displaySources(start, end) {
+            this.sources.forEach(source => {
+                new Media(source)
+            });
+
+            // Si il y a + de 20 sources on ajoute un bouton "Voir tout"
+            if(this.sources.length > 25) {
+
+                // Création du bouton "voir tout"
+                this.btnShowMore = document.createElement('p');
+                this.btnShowMore.innerText = 'Voir tout';
+                this.btnShowMore.className = 'see-all-btn';
+                this.containerSources.append(this.btnShowMore);
+
+                //
+                this.btnShowMore.addEventListener('click', e => {
+                    e.preventDefault();
+                    if(this.containerSources.classList.contains('see-all')) {
+                        this.showLess();
+                    } else {
+                        this.showMore();
+                    }
+                })
+            }
         }
     }
 
@@ -489,7 +582,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
         }
 
-        updateContent(title, image, date, sourceName, content, url, sourceID) {
+        updateContent(content, sourceID) {
             // Scroll en haut de la popin
             this.popin.scrollTo(0,0);
 
@@ -497,24 +590,14 @@ document.addEventListener('DOMContentLoaded', () => {
             this.popin.classList.remove('hidden');
 
             // Afficher l'article
-            this.content.innerHTML =
-                ` <article>
-                <figure>
-                    <img alt="${title}" src="${image}">
-                    <figcaption>
-                        <p>Publié le ${date}</p>
-                        <p>Par ${sourceName}</p>
-                        <h2>${title}</h2>
-                        ${content}
-                        <a href="${url}">Lire l'article en intégralité<i class="fas fa-arrow-right"></i></a>
-                    </figcaption>
-                </figure>
-              </article>`;
+            this.content.innerHTML = '';
+            this.content.append(content);
 
             // Afficher les suggestions corresponds à la source (média)
             this.updateSuggestions(sourceID);
         }
     }
+
 
     const fetchFunction = (url, requestType, data) => {
         return new Promise( resolve => {
@@ -533,8 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch( err => console.error(err) )
         })
     };
-
-
 
 
 

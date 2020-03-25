@@ -30,17 +30,31 @@
     </section>
     <section class="wrapper a1">
         <form class="form-search" novalidate>
-            <h3>Choisis ton média</h3>
-            <div class="parent container-sources"></div>
-            <h3>Affine ta recherche</h3>
-            <span class="container-search">
+            <div class="is-connect hidden hide parent-fav">
+                <h3>Tes favoris</h3>
+                <div class="parent container-sources favorites"></div>
+            </div>
+            <div>
+                <h3>Choisis ton média</h3>
+                <div class="parent container-sources normal"></div>
+            </div>
+            <div>
+                <h3>Affine ta recherche</h3>
+                <span class="container-search">
                 <input type="text" name="searchData" id="searchData" minlength="1" placeholder=" ">
                 <label for="searchData">Chercher un article, un sujet...</label>
                 <button class="search" type="submit"><i class="fas fa-search"></i></button>
             </span>
+            </div>
         </form>
     </section>
     <section class="wrapper">
+        <div class="articles-list"></div>
+    </section>
+    <section class="article-viewer hidden">
+        <a class="back-btn" href="#"><i class="fas fa-arrow-left"></i> Retour</a>
+        <div class="article-content"></div>
+        <h2>Suggestion d'articles</h2>
         <div class="articles-list"></div>
     </section>
     <section class="popin hide">
@@ -84,16 +98,6 @@
                 <button type="submit"><i>Valider</i><i class="fas fa-check"></i></button>
             </form>
         </div>
-    </section>
-    <section class="wrapper is-connect">
-        <h2>Vos articles favoris</h2>
-        <div class="articles-list container-favorites"></div>
-    </section>
-    <section class="article-viewer hidden">
-        <a class="back-btn" href="#"><i class="fas fa-arrow-left"></i> Retour</a>
-        <div class="article-content"></div>
-        <h2>Suggestion d'articles</h2>
-        <div class="articles-list"></div>
     </section>
 </main>
 

@@ -44,9 +44,6 @@ body {
 }
 .wrapper {
     padding: 0 20px;
-    max-width: 1200px;
-    margin-right: auto;
-    margin-left: auto;
 }
 main section {
     margin-top: 80px;
@@ -227,6 +224,7 @@ input:not(:placeholder-shown) + label {
     transition: color ease .3s;
     position: relative;
     margin-top: 20px;
+    order: 9999;
 }
 .see-all-btn:before {
     content: '';
@@ -464,6 +462,27 @@ article:hover h2 {
 }
 .hello-sentence {
     font-size: 18px;
+}
+figure {
+    position: relative;
+}
+[data-favorite] {
+    z-index: 2;
+    position: absolute;
+    top: -13px;
+    cursor: pointer;
+    font-size: 20px;
+    right: 0;
+    padding: 5px;
+    color: red;
+    transform: scale(.8) !important;
+    transition: ease .1s;
+}
+[data-favorite="false"] {
+      color: #000;
+}
+[data-favorite]:hover {
+    transform: scale(1) !important;
 }
 
 /***********************************************************************************************************************
