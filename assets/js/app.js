@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Déclaration des variables
     const popin = document.querySelector('.popin');
     const helloSentence =  document.querySelector('.hello-sentence');
-    const userConnectEl = document.querySelectorAll('.is-connect');
-    const userNoConnectEl = document.querySelectorAll('.no-connect');
     const apiKey = "8d997d228ba44568be2504c61a3151f4";
 
     // On récupère les id des favoris enregistrés dans le Local Storage sous form de String
@@ -93,10 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(result => {
 
                 // Afficher la connexion inscription
-                userNoConnectEl.forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('.no-connect').forEach(el => el.classList.remove('hidden'));
 
                 // Cacher les sections du compte
-                userConnectEl.forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('.is-connect').forEach(el => el.classList.add('hidden'));
 
                 // Suppresion du token dans le local storage
                 localStorage.setItem('user-token', null);
@@ -127,10 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const initUserInfos = (user) => {
 
         // Cacher la connexion inscription
-        userNoConnectEl.forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.no-connect').forEach(el => el.classList.add('hidden'));
 
         // Afficher les sections du compte
-        userConnectEl.forEach(el => el.classList.remove('hidden'));
+        document.querySelectorAll('.is-connect').forEach(el => el.classList.remove('hidden'));
         helloSentence.innerHTML = `Bonjour ${user.firstname} ${user.lastname}`;
     };
 
@@ -247,6 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
             this.name = source.name;
             this.source = source;
             this.insert();
+
+            // Si l'utilisateur est connecté, on affiche les favoris
+            let token = localStorage.getItem('user-token');
+            if(token !== null) {
+                document.querySelectorAll('.is-connect').forEach(el => el.classList.remove('hidden'));
+            }
         }
 
         insert() {
@@ -255,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
             span.innerHTML +=
                 `<input id="${this.id}" value="${this.id}" required type="radio" name="source">
                  <label for="${this.id}">${this.name}</label>
-                 <i data-favorite="false" class="fas fa-heart"></i>`;
+                 <i data-favorite="false" class="fas fa-heart is-connect hidden"></i>`;
 
             this.containerSources.append(span);
 
