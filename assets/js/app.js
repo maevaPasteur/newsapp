@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Si l'utilisateur est connecté, on affiche les favoris
             let token = localStorage.getItem('user-token');
-            if(token !== null) {
+            if(token !== null && token !== 'null') {
                 document.querySelectorAll('.is-connect').forEach(el => el.classList.remove('hidden'));
             }
         }
@@ -521,6 +521,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 this.submit();
             });
+
+            this.showLastResearch();
+        }
+
+        // Afficher la dernière recherche
+        showLastResearch() {
+
+            // si l'utilisateur n'est pas connecté
+            if(!localStorage.getItem('token')) {
+                let keyword = localStorage.getItem('keyword');
+                let source = localStorage.getItem('source');
+                if(source) {
+
+                    // On coche l'input de la dernière recherche
+                    let input = document.querySelector(`input[id="${source}"]`);
+                    input.checked = true;
+
+                    // Si il y avait un mot clé on l'écrit à nouveau dans l'input
+                    if(keyword) this.inputSearch.value = keyword;
+
+                    // On soumet la recherche
+                    this.submit();
+                }
+            }
         }
 
         submit() {
@@ -535,6 +559,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Si le résultat contient des articles
                         if(result.data && result.data.articles.length) {
+
+                            // Sauvegarde la dernière recherche dans le Local Storage
+                            localStorage.setItem('keyword', keywords);
+                            localStorage.setItem('source', source);
 
                             // On supprime le message d'erreur s'il est présent
                             if(this.message) {
@@ -694,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // vérifier si l'utilisateur est déjà connecté
     let token = localStorage.getItem('user-token');
-    if(token !== null) {
+    if(token !== null && token !== 'null') {
         let data = {
             token: token
         };
