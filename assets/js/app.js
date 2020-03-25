@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const userNoConnectEl = document.querySelectorAll('.no-connect');
     const apiKey = "8d997d228ba44568be2504c61a3151f4";
 
+    // On récupère les id des favoris enregistrés dans le Local Storage sous form de String
+    let favoritesSaved = localStorage.getItem('favorites');
+    // On obtient un tableau des id des favoris à partir de la String
+    favoritesSaved = favoritesSaved ? favoritesSaved.split('+') : '';
+
     // Formulaire d'inscription
     const formRegister = document.querySelector('.form-register');
     const inputRegisterEmail = document.querySelector('#registerEmail');
@@ -95,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Suppresion du token dans le local storage
                 localStorage.setItem('user-token', null);
+
+                // Suppression des favoris dans le local storage
+                localStorage.setItem('favorites', '');
             })
     };
 
@@ -242,17 +250,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         insert() {
+
             let span = document.createElement('span');
             span.innerHTML +=
                 `<input id="${this.id}" value="${this.id}" required type="radio" name="source">
                  <label for="${this.id}">${this.name}</label>
                  <i data-favorite="false" class="fas fa-heart"></i>`;
 
-            // Afficher dans le DOM
             this.containerSources.append(span);
 
-            // Détecter le click sur le bouton d'ajout / suppression aux favoris
             let btn = span.querySelector('i');
+
+            // Détecter le click sur le bouton d'ajout / suppression aux favoris
             btn.addEventListener('click', e => {
                 e.preventDefault();
 
@@ -284,6 +293,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 // On rend visible les medias favoris
                                 this.parentFavorites.classList.remove('hide');
+
+                                // On ajoute le favoris au local storage
+                                favoritesSaved = localStorage.getItem('favorites');
+
+                                // Les id des favoris sont séparés par +
+                                favoritesSaved = favoritesSaved ? `${favoritesSaved}+${this.id}` : this.id;
+                                localStorage.setItem('favorites', favoritesSaved);
                             }
                         })
 
@@ -303,7 +319,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         })
                 }
-            })
+            });
+
+            // Si son id est dans le local storage alors on l'affiche comme favoris
+            if(favoritesSaved.includes(this.id)) {
+                btn.click();
+            }
         }
     }
 
