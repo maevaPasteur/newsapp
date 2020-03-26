@@ -85,6 +85,14 @@ h3 {
 .hidden {
     display: none !important;
 }
+@media screen and (max-width: 500px) {
+    body {
+        font-size: 14px;
+    }
+    h2 {
+        font-size: 25px;
+    }
+}
 
 
 
@@ -414,6 +422,11 @@ header > div a:first-of-type {
     font-size: 30px;
     padding: 10px 0;
 }
+@media screen and (max-width: 500px) {
+    .main-article-carousel h2 {
+        font-size: 20px;
+    }
+}
 .main-article-carousel article p,
 .main-article-carousel article h2 {
     opacity: 0;
@@ -459,6 +472,11 @@ article:hover h2 {
     margin-bottom: 80px;
     opacity: 0;
     animation: anim1 .7s .4s forwards;
+}
+@media screen and (max-width: 500px) {
+    .articles-list article {
+        margin-bottom: 40px;
+    }
 }
 .articles-list article:nth-of-type(1) {
     animation-delay: 0s;
@@ -794,6 +812,9 @@ Article popin / viewer
 }
 .section-recently-viewed .flickity-viewport {
     width: 100%;
+}
+.section-recently-viewed h2 {
+    margin-bottom: 20px;
 }
 
 @media screen and (min-width: 1025px) {

@@ -13,7 +13,7 @@
 - En tant qu'utilisateur quand je clique sur un article je peux le voir en détail dans une popin
 - En tant qu'utilisateur quand je clique sur un article je peux voir les 10 derniers articles de sa source
 - En tant qu'utilisateur je veux avoir accès à la page sur desktop, tablette et mobile
-
+- En tant qu'utilisateur je veux voir les 4 derniers articles que j'ai consulté
 ## Librairie 
 - Flickity
 
