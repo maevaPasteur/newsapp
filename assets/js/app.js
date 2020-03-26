@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content = `<p>Publié le ${this.date}</p>
                         <p>Par ${this.sourceName}</p>
                         <h2 class="article-title">${this.title}</h2>
-                        ${content}
+                        ${this.content}
                         <a href="${this.url}">Lire l'article en intégralité<i class="fas fa-arrow-right"></i></a>`;
             }
 
