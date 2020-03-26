@@ -792,6 +792,9 @@ Article popin / viewer
 .flickity-page-dots .dot:hover {
     background-color: #000;
 }
+.section-recently-viewed .flickity-viewport {
+    width: 100%;
+}
 
 @media screen and (min-width: 1025px) {
     .article-viewer .articles-list:not(.flickity-enabled) article:nth-of-type(4n) {

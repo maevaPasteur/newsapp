@@ -9,11 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const popin = document.querySelector('.popin');
     const helloSentence =  document.querySelector('.hello-sentence');
     const apiKey = "8d997d228ba44568be2504c61a3151f4";
+    const sectionRecentlyViewed = document.querySelector('.section-recently-viewed');
 
     // On récupère les id des favoris enregistrés dans le Local Storage sous form de String
     // On obtient un tableau des id des favoris à partir de la String
     let favoritesSaved = localStorage.getItem('favorites');
     favoritesSaved = favoritesSaved ? favoritesSaved.split('+') : '';
+
+    // Articles recemment vues stockés dans le Local Storage
+    // On transform la String en JSON
+    let recentlyViewed = JSON.parse(localStorage.getItem('recently-viewed'));
+    if(!recentlyViewed) recentlyViewed = [];
 
     // Formulaire d'inscription
     const formRegister = document.querySelector('.form-register');
@@ -255,6 +261,27 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     };
 
+    /**
+     * Afficher les articles récemment vues
+     */
+    const displayRecentlyViewed = () => {
+
+        // Si il y a des article récemment vues
+        if(recentlyViewed.length) {
+
+            // On affiche la section
+            sectionRecentlyViewed.classList.remove('hidden');
+
+            // Pour chaque article récemment vues on l'affiche
+            recentlyViewed.forEach(article => {
+                let newArticle = new Article(article);
+                newArticle.insertInto(sectionRecentlyViewed.querySelector('.articles-list'))
+            });
+        }
+    };
+
+
+
 
 
 
@@ -328,10 +355,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
 
                 // Affichage de l'article dans la popin .article-viewer
-                articleViewerItem.updateContent(this.getArticleContent(1), this.sourceId)
+                articleViewerItem.updateContent(this.getArticleContent(1), this.sourceId);
+
+                // Ajouter l'article aux récemments vues dans le Local Storage
+                this.addToRecentlyViewed();
             })
         }
+
+        addToRecentlyViewed() {
+            // Afficher la section des articles récemment vues
+            sectionRecentlyViewed.classList.remove('hidden');
+
+            // On vérifie que l'article n'est pas déjà dans le Local Storage
+            let isAlreadyInLocalStorage = recentlyViewed.includes(this.article);
+            recentlyViewed.forEach(item => {
+               if(item.title === this.article.title) {
+                   isAlreadyInLocalStorage = true;
+               }
+            });
+
+            if(!isAlreadyInLocalStorage) {
+                let articlesShowed = sectionRecentlyViewed.querySelectorAll('.articles-list article');
+                if(articlesShowed.length === 4) {
+                    recentlyViewed.splice(0, 1);
+                    articlesShowed[0].remove();
+                }
+
+                recentlyViewed.push(this.article);
+
+                // jAjouter l'article au Local Storage
+                localStorage.setItem('recently-viewed', JSON.stringify(recentlyViewed));
+
+                // Afficher l'article à la liste des récemment vues
+                let newArticle = new Article(this.article);
+                newArticle.insertInto(sectionRecentlyViewed.querySelector('.articles-list'));
+            }
+        }
     }
+
 
     /**
      * Création des input radio correspondant aux médias (sources)
@@ -727,10 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // vérifier si l'utilisateur est déjà connecté
     let token = localStorage.getItem('user-token');
     if(token !== null && token !== 'null') {
-        let data = {
-            token: token
-        };
-        fetchFunction('https://newsapp.dwsapp.io/api/me', 'POST', data)
+        fetchFunction('https://newsapp.dwsapp.io/api/me', 'POST', {token: token})
             .then(result => {
 
                 // Si la réponse correspond à un utilisateur
@@ -753,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(result => {
 
             // Afficher aléatoirement 10 article de la source dans .main-article-carousel
-            initMainArticles('nbc-news');
+            initMainArticles('business-insider');
 
             if(result.data) {
                 const sources = result.data.sources;
@@ -791,6 +849,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         logout();
     });
+
+    // Afficher les articles récemment vues
+    displayRecentlyViewed();
 
 });
 
