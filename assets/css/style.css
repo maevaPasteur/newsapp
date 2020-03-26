@@ -133,7 +133,7 @@ input:not(:placeholder-shown) + label {
 }
 .search {
     position: absolute;
-    right: 0;
+    right: -40px;
     height: 100%;
     top: 0;
     width: 60px;

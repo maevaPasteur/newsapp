@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     input.checked = true;
 
                     // Si il y avait un mot clé on l'écrit à nouveau dans l'input
-                    if(keyword) this.inputSearch.value = keyword;
+                    if(keyword && keyword !== 'null') this.inputSearch.value = keyword;
 
                     // On soumet la recherche
                     this.submit();
