@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Newsapp - Breaking News all around the wrold in real time</title>
+    <title>Newsapp - Breaking News all around the wrold in real time</title>  <meta name="description" content="Free Web tutorials">
+    <meta name="description" content="Single page web app à réaliser. Devoir pour l'ECV Digital dans le cadre d'un Master 1 DEV.">
+    <meta name="keywords" content="HTML,CSS,Fetch,JavaScript,actualité">
+    <meta name="author" content="Maëva Pasteur">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/css/libs/flickity.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
@@ -16,7 +19,7 @@
         </div>
         <div class="a1 is-connect hidden">
             <p class="hello-sentence">Bonjour</p>
-            <a href="#" class="logout">Déconnexion<i class="fas fa-sign-out-alt"></i></a>
+            <a href="#" class="logout">Déconnexion<i aria-hidden="true" class="fas fa-sign-out-alt"></i></a>
         </div>
         <h1 class="a1">MYNEWS</h1>
     </header>
@@ -43,7 +46,7 @@
                 <span class="container-search">
                 <input type="text" name="searchData" id="searchData" minlength="1" placeholder=" ">
                 <label for="searchData">Chercher un article, un sujet...</label>
-                <button class="search" type="submit"><i class="fas fa-search"></i></button>
+                <button class="search" type="submit"><i aria-hidden="true" class="fas fa-search"></i></button>
             </span>
             </div>
         </form>
@@ -95,7 +98,7 @@
                     <input type="password" required id="registerPwConfirm" placeholder=" " minlength="5">
                     <label for="registerPwConfirm">Confirmer le mot de passe</label>
                 </span>
-                <button type="submit"><i>Valider</i><i class="fas fa-check"></i></button>
+                <button type="submit"><i>Valider</i><i aria-hidden="true" class="fas fa-check"></i></button>
             </form>
         </div>
     </section>
