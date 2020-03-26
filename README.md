@@ -16,6 +16,7 @@
 - En tant qu'utilisateur je veux voir les 4 derniers articles que j'ai consulté
 ## Librairie 
 - Flickity
+- Fontawesome
 
 ---
 
