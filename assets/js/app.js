@@ -185,6 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
         slider.on('dragEnd', () => {
             container.classList.remove('no-event')
         });
+
+        window.addEventListener('resize', () => {
+            slider.resize();
+        })
     };
 
 
