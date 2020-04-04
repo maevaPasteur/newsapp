@@ -338,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             articleEl.innerHTML =
                 ` <figure>
                     <img alt="${this.title}" src="${this.image}">
+                    <i data-favorite-article="false" class="fas fa-heart is-connect hidden"></i>
                     <figcaption>
                         ${content}
                     </figcaption>
@@ -352,15 +353,27 @@ document.addEventListener('DOMContentLoaded', () => {
             let newArticle = this.getArticleContent();
             container.appendChild(newArticle);
 
+            // On rend visible l'ajout aux favoris des nouveaux articles si l'utilisateur est connecté
+            let token = localStorage.getItem('user-token');
+            if(token !== null && token !== 'null') {
+                document.querySelectorAll('.is-connect').forEach(el => el.classList.remove('hidden'));
+            }
+
+
             newArticle.addEventListener('click', e => {
                 e.preventDefault();
 
-                // Affichage de l'article dans la popin .article-viewer
-                articleViewerItem.updateContent(this.getArticleContent(1), this.sourceId);
+                // Si on click sur l'ajout aux favoris
+                if(e.target.classList.contains('fa-heart')) {
+                    favoriteArticles.update(e.target, this.article);
+                } else {
+                    // Affichage de l'article dans la popin .article-viewer
+                    articleViewerItem.updateContent(this.getArticleContent(1), this.sourceId);
 
-                // Ajouter l'article aux récemments vues dans le Local Storage
-                this.addToRecentlyViewed();
-            })
+                    // Ajouter l'article aux récemments vues dans le Local Storage
+                    this.addToRecentlyViewed();
+                }
+            });
         }
 
         addToRecentlyViewed() {
@@ -776,6 +789,154 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    /**
+     * Ajouter des articles à nos favoris
+     */
+    class FavoriteArticle {
+
+        constructor() {
+            this.container = document.querySelector('.section-favorites-articles');
+            this.list = this.container.querySelector('.articles-list');
+            this.slider = undefined;
+            this.articles = undefined;
+            this.groupCells = 4;
+            this.init();
+        }
+
+        init() {
+            // Obtenir la liste des articles favoris depuis le Local Storage
+            let articles = JSON.parse(localStorage.getItem('favorite-articles'));
+
+            if(articles !== null && articles !== 'null') {
+                this.container.classList.remove('hide');
+                this.articles = articles;
+                this.container.classList.remove('hidden');
+                articles.forEach(article => {
+                    this.insert(article);
+                    this.changeFavoriteState('true', article);
+                });
+                this.setSliderSize();
+            } else {
+                this.articles = [];
+            }
+
+            // Mettre à jour la prop groupCells du slider flickity
+            window.addEventListener('resize', () => {
+                if(articles !== null && articles !== 'null') this.setSliderSize();
+            })
+        }
+
+        setSliderSize() {
+            let width = window.innerWidth;
+            if(width > 1024 ) {
+                this.groupCells = 4
+            } else if (width > 800) {
+                this.groupCells = 3
+            } else if (width > 500) {
+                this.groupCells = 2
+            } else {
+                this.groupCells = 1
+            }
+            this.initSlider();
+        }
+
+        insert(article) {
+            let articleContent = new Article(article);
+            articleContent.insertInto(this.list);
+        }
+
+        initSlider() {
+            console.log(this.slider);
+            if(this.slider) {
+                this.slider.destroy();
+            }
+            this.slider = new Flickity(this.list, {
+                contain: true,
+                prevNextButtons: false,
+                autoPlay: true,
+                pageDots: true,
+                cellAlign: 'left',
+                groupCells: this.groupCells
+            });
+            // Empêcher le click sur un article lors du drag
+            this.slider.on('dragStart', () => {
+                this.list.classList.add('no-event')
+            });
+            this.slider.on('dragEnd', () => {
+                this.list.classList.remove('no-event')
+            });
+        }
+
+        update(btn, article) {
+            let newFavoriteState;
+
+            if(btn.getAttribute('data-favorite-article') === 'false') {
+
+                // Ajout de l'article aux favoris
+                newFavoriteState = 'true';
+
+                // Test si l'article n'est pas déjà dans les favoris
+                if(!this.articles.includes(article) && !this.articles.filter(item => item.title === article.title).length) {
+
+                    this.articles.push(article);
+                    this.insert(article);
+                    this.initSlider();
+                }
+
+                // Affichage de la section des favoris
+                if (this.articles.length) this.container.classList.remove('hide');
+
+            } else {
+                // Suppression de l'article des favoris
+                newFavoriteState = 'false';
+
+                // Suppresion de l'article de la table this.articles
+                this.articles.splice(this.articles.indexOf(article), 1);
+
+                this.list.querySelectorAll('.article-title').forEach(item => {
+                    if(item.innerText === article.title) {
+                        this.slider.remove(item.closest('article'));
+                    }
+                });
+
+                if (!this.articles.length) this.container.classList.add('hide');
+            }
+
+            localStorage.setItem('favorite-articles', JSON.stringify(this.articles));
+            this.changeFavoriteState(newFavoriteState, article);
+        }
+
+        /**
+         * Mise à jour de l'attribut data-favorite-article
+         * @param state : String = 'true' or 'false'
+         * @param article : JSON
+         */
+        changeFavoriteState(state, article) {
+            let title = article.title;
+
+            // On sélectionne tous les articles avec le même titre
+            document.querySelectorAll('.article-title').forEach(item => {
+                if(item.innerText === title) {
+
+                    // Passe la valeur de data-favorite-article à true ou false
+                    item.closest('article').querySelector('.fa-heart').setAttribute('data-favorite-article', state);
+                }
+            });
+        }
+
+        // Suppression de tous les articles des favoris
+        removeAll() {
+            localStorage.setItem('favorite-articles', null);
+            this.articles = [];
+            this.container.classList.add('hide');
+            document.querySelectorAll('[data-favorite-article="true"]').forEach(item => {
+                item.setAttribute('data-favorite-article', 'false');
+            });
+            this.list.querySelectorAll('article').forEach(item => {
+                this.slider.remove(item);
+            });
+        }
+    }
 
 
 
@@ -849,10 +1010,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.logout').addEventListener('click', e => {
         e.preventDefault();
         logout();
+        favoriteArticles.removeAll();
     });
 
     // Afficher les articles récemment vues
     displayRecentlyViewed();
+
+    // Initialisation des articles favoris
+    let favoriteArticles = new FavoriteArticle();
 
 });
 

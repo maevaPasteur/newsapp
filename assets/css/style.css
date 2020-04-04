@@ -566,16 +566,23 @@ figure {
     font-size: 20px;
     right: 0;
     padding: 5px;
+}
+[data-favorite]:before,
+[data-favorite-article]:before {
     color: red;
     transform: scale(.8) !important;
     transition: ease .1s;
+    display: block;
 }
-[data-favorite="false"] {
+[data-favorite="false"]:before,
+[data-favorite-article="false"]:before {
       color: #000;
 }
-[data-favorite]:hover {
+[data-favorite]:hover::before,
+[data-favorite-article]:hover::before {
     transform: scale(1) !important;
 }
+
 
 /***********************************************************************************************************************
     Popin
@@ -820,7 +827,7 @@ Article popin / viewer
 .section-recently-viewed .flickity-viewport {
     width: 100%;
 }
-.section-recently-viewed h2 {
+.section-recently-viewed > h2 {
     margin-bottom: 20px;
 }
 .btn {
@@ -859,3 +866,35 @@ figcaption a:hover i {
         margin-right: 0 !important;
     }
 }
+
+
+
+
+/***********************************************************************************************************************
+Articles favoris
+***********************************************************************************************************************/
+
+.section-favorites-articles .flickity-viewport {
+    width: 100% !important;
+    min-height: 400px;
+}
+.section-favorites-articles > h2 {
+    margin-bottom: 20px;
+}
+.section-favorites-articles .articles-list {
+    padding-bottom: 40px;
+}
+[data-favorite-article] {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    box-shadow: 0 0 40px 45px rgba(255,255,255,.4);
+    background: rgba(255,255,255,.4);
+    border-radius: 50%;
+}
+.section-favorites-articles article {
+    margin-right: 20px !important;
+}
+
