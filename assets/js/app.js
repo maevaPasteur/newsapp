@@ -322,7 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if(size === 0) {
                 content = ` <p>${this.date}</p>
                         <h2 class="article-title">${this.title}</h2>
-                        ${this.description}`;
+                        ${this.description}
+                        <a class="btn" href="#">En savoir plus<i aria-hidden="true" class="fas fa-arrow-right"></i></a>`;
 
             // Popin article intégral
             } else {
@@ -330,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>Par ${this.sourceName}</p>
                         <h2 class="article-title">${this.title}</h2>
                         ${this.content}
-                        <a href="${this.url}">Lire l'article en intégralité<i class="fas fa-arrow-right"></i></a>`;
+                        <a href="${this.url}">Lire l'article en intégralité<i aria-hidden="true" class="fas fa-arrow-right"></i></a>`;
             }
 
             // Contenu de la balsie article

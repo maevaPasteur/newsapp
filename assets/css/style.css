@@ -150,6 +150,10 @@ input:not(:placeholder-shown) + label {
     background: none;
     z-index: 9;
     cursor: pointer;
+    transition: transform ease .3s;
+}
+.search:hover {
+    transform: scale(.9);
 }
 .error-msg {
     text-align: center;
@@ -726,11 +730,12 @@ Article popin / viewer
     margin: 0;
     z-index: 999;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 .article-viewer .article-content figcaption {
     padding: 40px 20px 60px;
-    border-bottom: solid 1px #000;
-    margin-bottom: 100px;
+    max-width: 1200px;
+    margin: auto;
 }
 .article-viewer .article-content article {
     cursor: auto !important;
@@ -783,6 +788,8 @@ Article popin / viewer
 .article-viewer .article-content + h2 {
     font-size: 30px;
     margin-bottom: 40px;
+    padding-top: 100px;
+    border-top: solid 1px #000;
 }
 .article-viewer .flickity-viewport {
     width: 100%;
@@ -816,7 +823,22 @@ Article popin / viewer
 .section-recently-viewed h2 {
     margin-bottom: 20px;
 }
-
+.btn {
+    font-weight: 400;
+    display: block;
+    padding-top: 20px;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+.btn i {
+    margin-left: 10px;
+}
+figcaption a i {
+    transition: transform ease .3s;
+}
+figcaption a:hover i {
+    transform: translateX(-5px);
+}
 @media screen and (min-width: 1025px) {
     .article-viewer .articles-list:not(.flickity-enabled) article:nth-of-type(4n) {
         margin-right: 0 !important;
