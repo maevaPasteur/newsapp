@@ -2,8 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82aca0b0-8c18-456c-8a0a-f89843c2cd2b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/fjalla/FjallaOne-Regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Black.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-BlackItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Bold.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-BoldItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Italic.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Light.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-LightItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Medium.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-MediumItalic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Regular.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-Thin.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/fonts/roboto/Roboto-ThinItalic.ttf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
@@ -29,7 +67,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1ZLMIKGJRhjygDRjIWUZ6VoEoob" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -37,11 +77,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/fonts/roboto" />
+      <recent name="$PROJECT_DIR$/assets/fonts/fjalla" />
       <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/fonts" />
       <recent name="$PROJECT_DIR$/assets/css/libs" />
-      <recent name="$PROJECT_DIR$/assets/js/libs" />
-      <recent name="$PROJECT_DIR$/assets/js/libs/flickity" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -69,7 +109,7 @@
       <workItem from="1584613840643" duration="65485000" />
       <workItem from="1585047596621" duration="484000" />
       <workItem from="1585126727822" duration="9330000" />
-      <workItem from="1586011019328" duration="14190000" />
+      <workItem from="1586011019328" duration="16884000" />
     </task>
     <servers />
   </component>

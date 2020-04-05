@@ -14,6 +14,9 @@
 - En tant qu'utilisateur quand je clique sur un article je peux voir les 10 derniers articles de sa source
 - En tant qu'utilisateur je veux avoir accès à la page sur desktop, tablette et mobile
 - En tant qu'utilisateur je veux voir les 4 derniers articles que j'ai consulté
+- En tant qu'utilisateur connecté je peux ajouter un article à mes favoris
+- En tant qu'utilisateur connecté je peux voir ma liste d'articles favoris
+- En tant qu'utilisateur déconnecté ma liste d'articles favoris doit se vider 
 ## Librairie 
 - Flickity
 

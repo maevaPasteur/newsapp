@@ -846,7 +846,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         initSlider() {
-            console.log(this.slider);
             if(this.slider) {
                 this.slider.destroy();
             }
@@ -858,6 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cellAlign: 'left',
                 groupCells: this.groupCells
             });
+
             // Empêcher le click sur un article lors du drag
             this.slider.on('dragStart', () => {
                 this.list.classList.add('no-event')
@@ -972,8 +972,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchFunction('https://newsapp.dwsapp.io/api/news/sources', 'POST',{"news_api_token": apiKey})
         .then(result => {
 
-            // Afficher aléatoirement 10 article de la source dans .main-article-carousel
-            initMainArticles('business-insider');
+            // Afficher aléatoirement 10 article de la source Le Monde
+            initMainArticles('le-monde');
 
             if(result.data) {
                 const sources = result.data.sources;

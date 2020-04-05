@@ -7,8 +7,8 @@
     <meta name="keywords" content="HTML,CSS,Fetch,JavaScript,actualité">
     <meta name="author" content="Maëva Pasteur">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="assets/css/libs/flickity.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/libs/flickity.css" rel="stylesheet">
     <link rel="icon" href="assets/images/favicon.ico" />
 </head>
 <body>
@@ -47,7 +47,7 @@
                 <span class="container-search">
                 <input type="text" name="searchData" id="searchData" minlength="1" placeholder=" ">
                 <label for="searchData">Chercher un article, un sujet...</label>
-                <button class="search" type="submit"><i aria-hidden="true" class="fas fa-search"></i></button>
+                <button class="search" type="submit" aria-label="Valider la recherche"><i aria-hidden="true" class="fas fa-search"></i></button>
             </span>
             </div>
         </form>
@@ -103,12 +103,12 @@
             </form>
         </div>
     </section>
-    <section class="wrapper section-recently-viewed hidden">
-        <h2>Récemment vues</h2>
-        <div class="articles-list"></div>
-    </section>
     <section class="wrapper section-favorites-articles is-connect hide">
         <h2>Mes articles favoris</h2>
+        <div class="articles-list"></div>
+    </section>
+    <section class="wrapper section-recently-viewed hidden">
+        <h2>Récemment vues</h2>
         <div class="articles-list"></div>
     </section>
 </main>
