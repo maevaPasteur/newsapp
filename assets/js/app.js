@@ -1,7 +1,10 @@
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('assets/js/sw.js')
-        .then(reg => console.log('service worker registered'))
-        .catch(err => console.log('service worker not registered', err));
+// Lancement du service worker si pris en charge par le navigateur
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js', { scope: '.' }).then(() => {
+        console.log('Service Worker enregistré correctement.');
+    }).catch(error => {
+        console.log('Erreur lors de l enregistrement du Service Worker : ', error);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
