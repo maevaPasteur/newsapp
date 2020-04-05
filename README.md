@@ -8,6 +8,7 @@
 - En tant qu’utilisateur connecté je peux voir ma liste de favoris
 - En tant qu’utilisateur connecté quand je clique sur un favoris je vous la liste des derniers articles de la source
 - En tant qu’utilisateur non connecté ma dernière recherche s’affiche automatiquement quand j’actualise la page
+
 ### Bonus
 - En tant qu'utilisateur je peux voir une suggestion de 10 articles aléatoires dans un slider
 - En tant qu'utilisateur quand je clique sur un article je peux le voir en détail dans une popin
@@ -17,6 +18,11 @@
 - En tant qu'utilisateur connecté je peux ajouter un article à mes favoris
 - En tant qu'utilisateur connecté je peux voir ma liste d'articles favoris
 - En tant qu'utilisateur déconnecté ma liste d'articles favoris doit se vider 
+
+### Gros bonus
+- En tant qu'utilisateur je veux une Progressive Web App
+
+
 ## Librairie 
 - Flickity
 - Fontawesome
