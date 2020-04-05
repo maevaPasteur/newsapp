@@ -19,6 +19,7 @@
 - En tant qu'utilisateur déconnecté ma liste d'articles favoris doit se vider 
 ## Librairie 
 - Flickity
+- Fontawesome
 
 ---
 
