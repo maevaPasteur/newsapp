@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="82aca0b0-8c18-456c-8a0a-f89843c2cd2b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/images/android-chrome-192x192.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/android-chrome-384x384.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/apple-touch-icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/favicon-16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/favicon-32x32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/mstile-150x150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/images/safari-pinned-tab.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/sw.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +70,7 @@
       <workItem from="1584613840643" duration="65485000" />
       <workItem from="1585047596621" duration="484000" />
       <workItem from="1585126727822" duration="9330000" />
-      <workItem from="1586011019328" duration="20170000" />
+      <workItem from="1586011019328" duration="20723000" />
     </task>
     <servers />
   </component>
