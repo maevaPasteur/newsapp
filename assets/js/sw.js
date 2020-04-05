@@ -4,7 +4,7 @@ const assets = [
     '/index.html',
     '/assets/js/libs/flickity.js',
     '/assets/js/app.js',
-    'assets/css/style.css',
+    '/assets/css/style.css',
     '/assets/js/libs/fontello.js',
     '/assets/images/placeholder-image.jpg',
     '@import url("https://fonts.googleapis.com/css?family=Fjalla+One|Roboto+Mono:100,100i,300,300i,400,400i,500,500i,700,700i&display=swap")'
